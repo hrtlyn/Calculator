@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heartlyn's Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Back Button at Top-Left -->
+  <a href="index.html" class="btn back-btn-top">Back</a>
+
+  <div class="calculator">
+    <h1>Heartlyn's Calculator</h1>
+    <input type="text" id="display" disabled>
+
+    <!-- Calculator Buttons -->
+    <div class="row">
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="appendNumber('/')">/</button>
+    </div>
+    <div class="row">
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="appendNumber('*')">*</button>
+    </div>
+    <div class="row">
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="appendNumber('-')">-</button>
+    </div>
+    <div class="row">
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="appendNumber('.')">.</button>
+      <button onclick="calculateResult()">=</button>
+      <button onclick="appendNumber('+')">+</button>
+    </div>
+    <div class="row">
+      <button onclick="clearDisplay()" style="width: 100%;">C</button>
+    </div>
+
+    <!-- History Dropdown -->
+    <button class="history-toggle" onclick="toggleHistory()">Show/Hide History</button>
+    <div id="history-container" class="history-container">
+      <ul id="history"></ul>
+    </div>
+  </div>
+
+  <script>
+    function appendNumber(num) {
+  document.getElementById('display').value += num;
+}
+
+function clearDisplay() {
+  document.getElementById('display').value = '';
+}
+
+function calculateResult() {
+  const display = document.getElementById('display');
+  try {
+    const result = eval(display.value);
+    addToHistory(display.value, result); // Save both expression and result
+    display.value = result;
+  } catch {
+    display.value = 'Error';
+  }
+}
+
+function addToHistory(expression, result) {
+  const historyList = document.getElementById('history');
+  const li = document.createElement('li');
+  li.textContent = `${expression} = ${result}`; // show full calculation
+  li.onclick = function() {
+    document.getElementById('display').value = result; // insert result if clicked
+  };
+  historyList.appendChild(li);
+}
+
+function toggleHistory() {
+  const container = document.getElementById('history-container');
+  container.classList.toggle('active'); // use CSS class for smooth transition
+}
+
+  </script>
+</body>
+</html>
